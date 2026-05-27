@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroData - Inteligência Agrícola para Pequenos Produtores</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navegação -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-icon">🌾</span>
+                <span class="logo-text">AgroData</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#dashboard" class="nav-link">Dashboard</a></li>
+                <li><a href="#calculadora" class="nav-link">Calculadora</a></li>
+                <li><a href="#historico" class="nav-link">Histórico</a></li>
+                <li><a href="#dicas" class="nav-link">Dicas</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">AgroData</h1>
+            <p class="hero-subtitle">Inteligência Agrícola para Pequenos Produtores</p>
+            <p class="hero-description">Gerencie seus dados agrícolas e tome decisões baseadas em informações</p>
+            <button class="hero-btn" onclick="document.getElementById('dashboard').scrollIntoView({behavior: 'smooth'})">Começar Agora</button>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard" class="dashboard-section">
+        <div class="section-container">
+            <h2 class="section-title">📊 Dashboard de Monitoramento</h2>
+            <p class="section-subtitle">Visualize suas plantações em tempo real</p>
+
+            <div class="dashboard-grid">
+                <!-- Card: Plantações Ativas -->
+                <div class="dashboard-card">
+                    <div class="card-icon">🌱</div>
+                    <div class="card-content">
+                        <h3>Plantações Ativas</h3>
+                        <p class="card-value" id="totalPlantacoes">0</p>
+                        <p class="card-label">no sistema</p>
+                    </div>
+                </div>
+
+                <!-- Card: Área Total -->
+                <div class="dashboard-card">
+                    <div class="card-icon">📐</div>
+                    <div class="card-content">
+                        <h3>Área Total</h3>
+                        <p class="card-value" id="areaTotalDisplay">0</p>
+                        <p class="card-label">hectares</p>
+                    </div>
+                </div>
+
+                <!-- Card: Produção Esperada -->
+                <div class="dashboard-card">
+                    <div class="card-icon">📈</div>
+                    <div class="card-content">
+                        <h3>Produção Esperada</h3>
+                        <p class="card-value" id="producaoEsperada">0</p>
+                        <p class="card-label">toneladas</p>
+                    </div>
+                </div>
+
+                <!-- Card: Lucro Estimado -->
+                <div class="dashboard-card">
+                    <div class="card-icon">💰</div>
+                    <div class="card-content">
+                        <h3>Lucro Estimado</h3>
+                        <p class="card-value" id="lucroEstimado">R$ 0</p>
+                        <p class="card-label">total</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulário de Nova Plantação -->
+            <div class="form-section">
+                <h3>Adicionar Nova Plantação</h3>
+                <form id="plantacaoForm" class="form-grid">
+                    <div class="form-group">
+                        <label for="nomePlantacao">Nome da Plantação:</label>
+                        <input type="text" id="nomePlantacao" placeholder="Ex: Milho - Talhão A" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tipoCultura">Tipo de Cultura:</label>
+                        <select id="tipoCultura" required>
+                            <option value="">Selecione...</option>
+                            <option value="milho">Milho</option>
+                            <option value="soja">Soja</option>
+                            <option value="trigo">Trigo</option>
+                            <option value="arroz">Arroz</option>
+                            <option value="feijao">Feijão</option>
+                            <option value="cafe">Café</option>
+                            <option value="cana">Cana-de-açúcar</option>
+                            <option value="outro">Outro</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="areaPlantacao">Área (hectares):</label>
+                        <input type="number" id="areaPlantacao" placeholder="Ex: 10.5" step="0.1" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dataPlantio">Data de Plantio:</label>
+                        <input type="date" id="dataPlantio" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="rendimentoEsperado">Rendimento Esperado (kg/ha):</label>
+                        <input type="number" id="rendimentoEsperado" placeholder="Ex: 8000" step="100" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="custoTotal">Custo Total (R$):</label>
+                        <input type="number" id="custoTotal" placeholder="Ex: 5000" step="0.01" min="0" required>
+                    </div>
+
+                    <button type="submit" class="btn-primary">Adicionar Plantação</button>
+                </form>
+            </div>
+
+            <!-- Lista de Plantações -->
+            <div class="plantacoes-list">
+                <h3>Suas Plantações</h3>
+                <div id="plantacoesList" class="list-container">
+                    <p class="empty-message">Nenhuma plantação cadastrada. Adicione uma acima!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculadora Section -->
+    <section id="calculadora" class="calculadora-section">
+        <div class="section-container">
+            <h2 class="section-title">🧮 Calculadora Agrícola</h2>
+            <p class="section-subtitle">Calcule rendimento, custos e lucro</p>
+
+            <div class="calculadora-grid">
+                <div class="calc-card">
+                    <h3>Cálculo de Rendimento</h3>
+                    <div class="calc-form">
+                        <div class="form-group">
+                            <label>Área (hectares):</label>
+                            <input type="number" id="calcArea" placeholder="10" step="0.1" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Rendimento (kg/ha):</label>
+                            <input type="number" id="calcRendimento" placeholder="8000" step="100" min="0">
+                        </div>
+                        <button class="btn-secondary" onclick="calcularRendimento()">Calcular</button>
+                        <div class="result">
+                            <p>Produção Total: <strong id="resultRendimento">0 kg</strong></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="calc-card">
+                    <h3>Análise de Lucro</h3>
+                    <div class="calc-form">
+                        <div class="form-group">
+                            <label>Produção (kg):</label>
+                            <input type="number" id="calcProducao" placeholder="80000" step="100" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Preço (R$/kg):</label>
+                            <input type="number" id="calcPreco" placeholder="0.50" step="0.01" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Custos (R$):</label>
+                            <input type="number" id="calcCustos" placeholder="5000" step="0.01" min="0">
+                        </div>
+                        <button class="btn-secondary" onclick="calcularLucro()">Calcular</button>
+                        <div class="result">
+                            <p>Receita: <strong id="resultReceita">R$ 0</strong></p>
+                            <p>Lucro: <strong id="resultLucro">R$ 0</strong></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="calc-card">
+                    <h3>Eficiência Hídrica</h3>
+                    <div class="calc-form">
+                        <div class="form-group">
+                            <label>Água Usada (mil litros):</label>
+                            <input type="number" id="calcAgua" placeholder="500" step="10" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Produção (kg):</label>
+                            <input type="number" id="calcProducaoAgua" placeholder="80000" step="100" min="0">
+                        </div>
+                        <button class="btn-secondary" onclick="calcularEficiencia()">Calcular</button>
+                        <div class="result">
+                            <p>Eficiência: <strong id="resultEficiencia">0 kg/mil L</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Histórico Section -->
+    <section id="historico" class="historico-section">
+        <div class="section-container">
+            <h2 class="section-title">📋 Histórico de Plantações</h2>
+            <p class="section-subtitle">Acompanhe o desempenho de suas plantações anteriores</p>
+
+            <div class="historico-controls">
+                <button class="btn-secondary" onclick="exportarRelatorio()">📥 Exportar Relatório</button>
+                <button class="btn-secondary" onclick="limparHistorico()">🗑️ Limpar Tudo</button>
+            </div>
+
+            <div class="historico-stats">
+                <div class="stat-card">
+                    <h4>Total de Plantações</h4>
+                    <p class="stat-value" id="totalPlantacoesHist">0</p>
+                </div>
+                <div class="stat-card">
+                    <h4>Área Média</h4>
+                    <p class="stat-value" id="areaMedia">0 ha</p>
+                </div>
+                <div class="stat-card">
+                    <h4>Rendimento Médio</h4>
+                    <p class="stat-value" id="rendimentoMedio">0 kg/ha</p>
+                </div>
+                <div class="stat-card">
+                    <h4>Lucro Total</h4>
+                    <p class="stat-value" id="lucroTotal">R$ 0</p>
+                </div>
+            </div>
+
+            <div id="historicoList" class="historico-list">
+                <p class="empty-message">Nenhum histórico disponível ainda.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dicas Section -->
+    <section id="dicas" class="dicas-section">
+        <div class="section-container">
+            <h2 class="section-title">💡 Dicas e Boas Práticas</h2>
+            <p class="section-subtitle">Conheça técnicas sustentáveis para melhorar sua produção</p>
+
+            <div class="dicas-grid">
+                <div class="dica-card">
+                    <div class="dica-icon">🌍</div>
+                    <h3>Rotação de Culturas</h3>
+                    <p>Alterne diferentes culturas na mesma área para manter a saúde do solo e reduzir pragas naturalmente.</p>
+                    <button class="btn-link" onclick="expandirDica(this)">Saiba Mais</button>
+                    <div class="dica-expandida" style="display: none;">
+                        <p><strong>Como fazer:</strong> Divida sua área em talhões e plante culturas diferentes a cada estação. Exemplo: Milho → Feijão → Soja.</p>
+                        <p><strong>Benefícios:</strong> Reduz custos com fertilizantes, diminui pragas, melhora fertilidade do solo.</p>
+                    </div>
+                </div>
+
+                <div class="dica-card">
+                    <div class="dica-icon">💧</div>
+                    <h3>Irrigação Eficiente</h3>
+                    <p>Use técnicas de irrigação localizada para economizar água e aumentar produtividade.</p>
+                    <button class="btn-link" onclick="expandirDica(this)">Saiba Mais</button>
+                    <div class="dica-expandida" style="display: none;">
+                        <p><strong>Técnicas:</strong> Gotejamento, microaspersão ou sulcos.</p>
+                        <p><strong>Economia:</strong> Reduz consumo de água em até 50% comparado à irrigação por aspersão.</p>
+                    </div>
+                </div>
+
+                <div class="dica-card">
+                    <div class="dica-icon">🌱</div>
+                    <h3>Cobertura do Solo</h3>
+                    <p>Use palha, resíduos de colheita ou plantas de cobertura para proteger o solo.</p>
+                    <button class="btn-link" onclick="expandirDica(this)">Saiba Mais</button>
+                    <div class="dica-expandida" style="display: none;">
+                        <p><strong>Benefícios:</strong> Reduz evaporação de água, controla erosão, melhora estrutura do solo.</p>
+                        <p><strong>Opções:</strong> Palha de milho, leguminosas, aveia.</p>
+                    </div>
+                </div>
+
+                <div class="dica-card">
+                    <div class="dica-icon">🐛</div>
+                    <h3>Controle Biológico</h3>
+                    <p>Use inimigos naturais para controlar pragas sem agroquímicos.</p>
+                    <button class="btn-link" onclick="expandirDica(this)">Saiba Mais</button>
+                    <div class="dica-expandida" style="display: none;">
+                        <p><strong>Exemplos:</strong> Joaninhas comem pulgões, vespas parasitam lagartas.</p>
+                        <p><strong>Vantagem:</strong> Reduz custos com inseticidas, mantém ecossistema equilibrado.</p>
+                    </div>
+                </div>
+
+                <div class="dica-card">
+                    <div class="dica-icon">📊</div>
+                    <h3>Monitoramento de Dados</h3>
+                    <p>Registre dados de cada plantação para identificar padrões e melhorar decisões.</p>
+                    <button class="btn-link" onclick="expandirDica(this)">Saiba Mais</button>
+                    <div class="dica-expandida" style="display: none;">
+                        <p><strong>O que registrar:</strong> Data de plantio, clima, pragas, rendimento, custos.</p>
+                        <p><strong>Benefício:</strong> Identifique qual período tem melhor rendimento, qual cultura é mais lucrativa.</p>
+                    </div>
+                </div>
+
+                <div class="dica-card">
+                    <div class="dica-icon">🌾</div>
+                    <h3>Adubação Equilibrada</h3>
+                    <p>Use adubação baseada em análise de solo para otimizar nutrientes.</p>
+                    <button class="btn-link" onclick="expandirDica(this)">Saiba Mais</button>
+                    <div class="dica-expandida" style="display: none;">
+                        <p><strong>Passo 1:</strong> Faça análise de solo a cada 2-3 anos.</p>
+                        <p><strong>Passo 2:</strong> Use adubo conforme recomendação técnica.</p>
+                        <p><strong>Resultado:</strong> Aumenta produtividade, reduz custos, protege ambiente.</p>
+                    </div>
+                </div>
+
+                <div class="dica-card">
+                    <div class="dica-icon">🌤️</div>
+                    <h3>Previsão do Tempo</h3>
+                    <p>Acompanhe previsão de chuva para planejar plantio e colheita.</p>
+                    <button class="btn-link" onclick="expandirDica(this)">Saiba Mais</button>
+                    <div class="dica-expandida" style="display: none;">
+                        <p><strong>Ferramentas:</strong> INMET, aplicativos de meteorologia, estações locais.</p>
+                        <p><strong>Uso:</strong> Planeie plantio após chuva, evite colheita em dias chuvosos.</p>
+                    </div>
+                </div>
+
+                <div class="dica-card">
+                    <div class="dica-icon">🤝</div>
+                    <h3>Associativismo</h3>
+                    <p>Junte-se a associações para compartilhar conhecimento e reduzir custos.</p>
+                    <button class="btn-link" onclick="expandirDica(this)">Saiba Mais</button>
+                    <div class="dica-expandida" style="display: none;">
+                        <p><strong>Benefícios:</strong> Compra coletiva de insumos, compartilhamento de máquinas, acesso a crédito.</p>
+                        <p><strong>Resultado:</strong> Reduz custos em até 30%, aumenta poder de negociação.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2026 AgroData - Inteligência Agrícola para Pequenos Produtores</p>
+            <p>Desenvolvido para o Concurso Agrinho 2026 - Categoria Programação</p>
+            <p>HTML5 • CSS3 • JavaScript Vanilla</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
